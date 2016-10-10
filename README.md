@@ -9,6 +9,8 @@
 
 # Part 2
 
+** Be sure to download and use the project files from this repo, as opposed to your files from Part 1. **
+
 ### 1. Add Supplementary Views to the Collection View
 
 Each section of a collection view has the option of including supplementary views (header and/or footer) of type `UICollectionReusableView`.
