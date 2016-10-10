@@ -18,34 +18,34 @@ Each section of a collection view has the option of including supplementary view
   * `var footerReusableView: FooterReusableView!`
  * Add the following code snippet inside `viewDidLoad()` of the `CollectionViewController` class:
 
- ```swift
+```swift
 
- self.collectionView?.register(HeaderReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "header")
- self.collectionView?.register(FooterReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: "footer")
+self.collectionView?.register(HeaderReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "header")
+self.collectionView?.register(FooterReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: "footer")
 
- ```
+```
  * Add the following data source method below the existing data source methods in the `CollectionViewController` class:
 
- ```swift
+```swift
 
 override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
 
-     if kind == UICollectionElementKindSectionHeader {
+   if kind == UICollectionElementKindSectionHeader {
 
-         headerReusableView = (self.collectionView?.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath)) as! HeaderReusableView
+       headerReusableView = (self.collectionView?.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath)) as! HeaderReusableView
 
-         return headerReusableView
+       return headerReusableView
 
-     } else {
+   } else {
 
-         footerReusableView = (self.collectionView?.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "footer", for: indexPath)) as! FooterReusableView
+       footerReusableView = (self.collectionView?.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "footer", for: indexPath)) as! FooterReusableView
 
-         return footerReusableView
-     }
+       return footerReusableView
+   }
 
- }
+}
 
- ```
+```
 
 There have been two subclasses created for you in this project that inherit from `UICollectionReusableView`, `HeaderReusableView` and `FooterReusableView`. These classes are being used programmatically in the project (i.e., not in storyboard). The method call used in `viewDidLoad` called `register(_:forSupplementaryViewOfKind:withIdentifier:)` registers the class with the collection view. The data source method, `collectionView(_:viewForSupplementaryElementOfKind:at:)`, asks the data source object to provide the subclassed supplementary views to the collection view.
 
@@ -122,20 +122,20 @@ There are a handful of other steps you can take to treat this even more like a g
  * The `FooterReusableView` class has a timer and timer related functions. How could you incorporate those into the `CollectionViewController` class? Remember you have the `footerReusableView` property that is of type `FooterReusableView`. `FooterReusableView` has useful properties/methods like `startTimer()`, `timer`, and `timerLabel`.
  * How can you tell once a user has moved all the image slices back into order to complete the picture? `collectionView(_:moveItemAt:to:)` supplies you with the source index path and the destination index path when a cell is being moved. This information allows you the option to reorder the `imageSlices` array. Here's a code snippet you can add _**inside**_ of `collectionView(_:moveItemAt:to:)` to help you out:
 
- ```swift
+```swift
 
- self.collectionView?.performBatchUpdates({
+self.collectionView?.performBatchUpdates({
 
-    // reorder the imageSlices array here
+  // reorder the imageSlices array here
 
 
-    }, completion: { completed in
+  }, completion: { completed in
 
-        // 1. Check for winning scenario
-        // 2. Invalidate the timer
-        // 3. Perform segue with identifier "solvedSegue"
+      // 1. Check for winning scenario
+      // 2. Invalidate the timer
+      // 3. Perform segue with identifier "solvedSegue"
 
- })
+})
 
- ```
+```
  * There is a segue set up in `Main.storyboard` to a second view controller called `SolvedViewController`. Use `prepare(for:sender:)` to segue to `SolvedViewController`. In the prepare for segue method, assign values to the properties of `SolvedViewController` named `image` and `time`. `image` should be the `cats` image in the assets folder. `time` should be the value of `footerReusableView.timerLabel.text` (the current time at the moment the puzzle was solved).
