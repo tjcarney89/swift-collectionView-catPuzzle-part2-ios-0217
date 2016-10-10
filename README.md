@@ -9,7 +9,7 @@
 
 # Part 2
 
-** Be sure to download and use the project files from this repo, as opposed to your files from Part 1. **
+**Be sure to download and use the project files from this repo, as opposed to your files from Part 1.**
 
 ### 1. Add Supplementary Views to the Collection View
 
