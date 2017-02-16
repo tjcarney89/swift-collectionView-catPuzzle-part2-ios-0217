@@ -39,6 +39,8 @@ class FooterReusableView: UICollectionReusableView {
         timerLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         timerLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
         
+        startTimer()
+        
     }
     
     func startTimer() {

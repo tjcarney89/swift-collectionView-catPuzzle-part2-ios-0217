@@ -14,6 +14,8 @@ class CollectionViewController: UICollectionViewController, UICollectionViewDele
     var headerReusableView: HeaderReusableView!
     var footerReusableView: FooterReusableView!
     var imageSlices: [UIImage] = []
+    var correctOrder: [UIImage] = []
+    
     
     var sectionInsets: UIEdgeInsets!
     var spacing: CGFloat!
@@ -33,7 +35,14 @@ class CollectionViewController: UICollectionViewController, UICollectionViewDele
         for i in 1...12 {
             imageSlices.append(UIImage(named: "\(i)")!)
         }
+        
+        correctOrder = imageSlices
+        
         randomize()
+       print("ORIGINAL: \(imageSlices)")
+//        print("CORRECT: \(correctOrder)")
+        
+        
         
    
     }
@@ -94,7 +103,51 @@ class CollectionViewController: UICollectionViewController, UICollectionViewDele
     }
     
     override func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+       
+        
+
+//        print("CURRENT ARRAY: \(imageSlices)")
+//        print("CORRECT: \(correctOrder)")
+        
+//        collectionView.performBatchUpdates({
+        
+        
+        let comingFromIndex = sourceIndexPath.item
+        let goingToIndex = destinationIndexPath.item
+        let itemFromArray = imageSlices.remove(at: comingFromIndex)
+        imageSlices.insert(itemFromArray, at: goingToIndex)
+        
+        
+        
+        if imageSlices == correctOrder {
+            print("WINNER!")
+            footerReusableView.timerLabel.isHidden = true
+            performSegue(withIdentifier: "solvedSegue", sender: nil)
+        }
+            
+            
+            
+//        }, completion: { success in
+            
+            
+
+        
+ //       })
+        
+        print("CURRENT: \(imageSlices)")
+        print("CORRECT: \(correctOrder)")
+        
+        
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let dest = segue.destination as? SolvedViewController, let indexPath = collectionView?.indexPathsForSelectedItems {
+            dest.image = UIImage(named: "cats")
+            dest.time = footerReusableView.timerLabel.text
+        }
+    }
+    
+    
     
     func configureLayout() {
         let width = UIScreen.main.bounds.width
